@@ -1,0 +1,12 @@
+# 开发/测试依赖 / development & test requirements
+#
+#   pip install -r requirements-dev.txt
+#
+# 说明：测试用 PyMuPDF 读取生成的 PDF 来校验文本、页数与图片。
+# PyMuPDF 采用 AGPL-3.0（双重许可），只作为**测试**依赖使用，
+# 转换过程本身并不需要它 —— 页数由 ReportLab 提供。
+-r requirements.txt
+
+PyMuPDF>=1.22
+fonttools>=4.0
+Pillow>=9.0

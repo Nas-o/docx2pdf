@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# docx2pdf launcher -- picks a Python interpreter that has the dependencies.
+#
+#   ./docx2pdf report.docx
+#   ./docx2pdf --help
+#
+# Override the interpreter with $D2P_PYTHON if you use a virtualenv/conda env.
+set -uo pipefail
+
+# Resolve the real script location, following symlinks, so this launcher can be
+# linked into ~/bin or /usr/local/bin and still find d2p/.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -L "$SOURCE" ]; do
+    DIR="$(cd -P -- "$(dirname -- "$SOURCE")" && pwd)"
+    SOURCE="$(readlink -- "$SOURCE")"
+    case "$SOURCE" in
+        /*) ;;
+        *) SOURCE="$DIR/$SOURCE" ;;
+    esac
+done
+HERE="$(cd -P -- "$(dirname -- "$SOURCE")" && pwd)"
+ENTRY="$HERE/docx2pdf.py"
+
+candidates=()
+[ -n "${D2P_PYTHON:-}" ] && candidates+=("$D2P_PYTHON")
+candidates+=(python3 python)
+
+for py in "${candidates[@]}"; do
+    command -v "$py" >/dev/null 2>&1 || continue
+    if "$py" -c 'import docx, reportlab' >/dev/null 2>&1; then
+        exec "$py" "$ENTRY" "$@"
+    fi
+done
+
+# No interpreter had the libraries: let the CLI explain what is missing.
+if command -v python3 >/dev/null 2>&1; then
+    exec python3 "$ENTRY" "$@"
+fi
+echo "docx2pdf: 找不到 python3 / python3 not found" >&2
+exit 127

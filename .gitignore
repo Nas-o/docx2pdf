@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 生成的示例与输出 / generated samples and output
+tests/samples/*.pdf
+tests/samples/*.docx
+*.pdf.tmp
+
+# 本地解压的 LibreOffice（免 root 安装时放在这里）
+.tools/

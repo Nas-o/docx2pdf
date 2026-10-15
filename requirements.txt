@@ -1,0 +1,16 @@
+# docx2pdf 运行依赖 / runtime requirements
+#
+# 核心依赖（内置引擎必需，均为宽松许可证）
+#   python-docx  MIT
+#   reportlab    BSD-3-Clause
+python-docx>=0.8.11
+reportlab>=3.6
+
+# 可选增强（不装也能转换，只是少了缺字提示与更准确的图片尺寸）
+#   fonttools  MIT       检测字体覆盖的字符，缺字时给出提示
+#   Pillow     MIT-CMU   读取图片原始 DPI，处理非常规图片格式
+# fonttools>=4.0
+# Pillow>=9.0
+
+# 测试依赖见 requirements-dev.txt
+# （其中的 PyMuPDF 是 AGPL-3.0，仅用于读取测试输出，不参与转换）
